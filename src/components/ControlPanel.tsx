@@ -1,16 +1,15 @@
-import type { State, Action } from "../reducer/clubReducer";
+import { useClubContext } from "../context/ClubContext";
 
-interface Props {
-  state: State;
-  dispatch: React.Dispatch<Action>;
-}
+export default function ControlPanel() {
+  const { state, dispatch } = useClubContext();
 
-function ControlPanel({ state, dispatch }: Props) {
   return (
-    <div className="panel">
+    <div>
       <select
         value={state.country}
-        onChange={e => dispatch({ type: "SET_COUNTRY", payload: e.target.value })}
+        onChange={e =>
+          dispatch({ type: "SET_COUNTRY", payload: e.target.value })
+        }
       >
         <option value="">Все страны</option>
         <option value="Spain">Spain</option>
@@ -21,7 +20,9 @@ function ControlPanel({ state, dispatch }: Props) {
 
       <select
         value={state.city}
-        onChange={e => dispatch({ type: "SET_CITY", payload: e.target.value })}
+        onChange={e =>
+          dispatch({ type: "SET_CITY", payload: e.target.value })
+        }
       >
         <option value="">Все города</option>
         <option value="Madrid">Madrid</option>
@@ -38,11 +39,9 @@ function ControlPanel({ state, dispatch }: Props) {
         }
       >
         <option value="">Без сортировки</option>
-        <option value="asc">По возрастанию года</option>
-        <option value="desc">По убыванию года</option>
+        <option value="asc">По возрастанию</option>
+        <option value="desc">По убыванию</option>
       </select>
     </div>
   );
 }
-
-export default ControlPanel;

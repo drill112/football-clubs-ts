@@ -1,20 +1,32 @@
-import type { Club } from "../types/Club";
+import { useClubContext } from "../context/ClubContext";
+import ClubItem from "./ClubItem";
 
+export default function ClubList() {
+  const { state } = useClubContext();
 
-interface Props {
-  clubs: Club[];
-}
+  let list = [...state.clubs];
 
-function ClubList({ clubs }: Props) {
+  if (state.country) {
+    list = list.filter(c => c.country === state.country);
+  }
+
+  if (state.city) {
+    list = list.filter(c => c.city === state.city);
+  }
+
+  if (state.sort === "asc") {
+    list.sort((a, b) => a.founded - b.founded);
+  }
+
+  if (state.sort === "desc") {
+    list.sort((a, b) => b.founded - a.founded);
+  }
+
   return (
-    <ul className="list">
-      {clubs.map(c => (
-        <li key={c.id}>
-          <b>{c.name}</b> — {c.country}, {c.city} ({c.founded})
-        </li>
+    <div>
+      {list.map(club => (
+        <ClubItem key={club.id} club={club} />
       ))}
-    </ul>
+    </div>
   );
 }
-
-export default ClubList;
